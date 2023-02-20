@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Accura Member Add')
+@section('title', 'Accura Member Edit')
 @section('content')
     <div class="container">
 
