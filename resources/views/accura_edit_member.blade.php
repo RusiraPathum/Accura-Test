@@ -114,7 +114,7 @@
                                 <div class=" mb-0">
                                     <div class="float-end">
                                         <button type="submit" class="btn btn-primary">
-                                            {{ __('Login') }}
+                                            {{ __('Edit User') }}
                                         </button>
 
                                     </div>

@@ -34,5 +34,8 @@ Route::post('/delete_user/{id}', [UserController::class, 'delete']);
 //edit user
 Route::get('/userEdit/{id}', [UserController::class, 'edit']);
 
+//edit user
+Route::post('/search', [UserController::class, 'search']);
+
 //update member route
 Route::post('/update_member', [UserController::class, 'update'])->name('update_member');

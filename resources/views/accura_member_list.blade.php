@@ -8,15 +8,25 @@
             <div class="row mt-5">
                 <div class="col-6">
                     <div class="col-md-6">
-                        <div class="input-group">
-                            <input class="form-control border-end-0 border rounded-pill" type="search" value="search"
-                                   id="example-search-input">
-                            <span class="input-group-append">
-                                <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5" type="button">
+
+                        <form action="/search" method="POST">
+                            {{ csrf_field() }}
+                            <div class="input-group">
+
+                                <input class="form-control border-end-0 border rounded-pill" type="search"
+                                       placeholder="Search user"
+                                       id="example-search-input" name="search">
+                                <span class="input-group-append">
+                                <button
+                                    class="btn btn-outline-secondary" style="height: 40px"
+                                    type="submit">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </span>
-                        </div>
+                            </div>
+
+                        </form>
+
                     </div>
                 </div>
                 <div class="col-6">
@@ -43,17 +53,17 @@
                                 <td>{{$user->dob}}</td>
                                 <td>{{$user->name}}</td>
                                 <td class="float-end">
-                                <td>
                                     <a class="btn btn-success" href="{{ url('userEdit/'.$user->id) }}">Edit</a>
-                                    <input type="button" onclick="deleteUser({{$user->id}});" class="btn btn-danger mr-3" value="Delete">
+                                    <input type="button" onclick="deleteUser({{$user->id}});"
+                                           class="btn btn-danger mr-3" value="Delete">
                                 </td>
                             </tr>
                         @endforeach
                     @endif
                     @if(count($userList) == 0)
-                            <tr class="text-danger">
-                                <td>No data</td>
-                            </tr>
+                        <tr class="text-danger">
+                            <td>No found data</td>
+                        </tr>
                     @endif
                     </tbody>
                 </table>
@@ -81,7 +91,7 @@
                             <form id="editUserForm">
                                 {{ csrf_field() }}
                                 <div class="row">
-                                    <input hidden type="text" name="id"id="id">
+                                    <input hidden type="text" name="id" id="id">
                                     <div class="form-group col-12">
                                         <label for="first_name">Add first name</label>
                                         <input type="text" name="first_name" class="form-control" id="first_name"
@@ -90,7 +100,8 @@
 
                                     <div class="form-group col-12">
                                         <label for="last_name">Add last name</label>
-                                        <input class="form-control"  placeholder="Add last name" type="text" name="last_name" id="last_name">
+                                        <input class="form-control" placeholder="Add last name" type="text"
+                                               name="last_name" id="last_name">
                                     </div>
 
                                     <div class="form-group col-lg-12 col-12">
@@ -107,7 +118,7 @@
                                     <div class="form-group col-12">
                                         <label for="dob">Add Date of Birth</label>
                                         <input type="date" name="dob" class="form-control"
-                                                  id="dob">
+                                               id="dob">
                                     </div>
 
                                     <div class="form-group col-12">
@@ -143,7 +154,7 @@
             }
         });
 
-        function setUserDetails(id, first_name, last_name, dob, ds_division, name, summary, ) {
+        function setUserDetails(id, first_name, last_name, dob, ds_division, name, summary,) {
 
             document.getElementById('id').value = id;
             document.getElementById('first_name').value = first_name;
@@ -153,7 +164,7 @@
             document.getElementById('summary').value = summary;
         }
 
-        $( "#edit_user" ).click(function() {
+        $("#edit_user").click(function () {
             var update_id = document.getElementById('id').value;
             var update_first_name = document.getElementById('first_name').value;
             var update_last_names = document.getElementById('last_name').value;
@@ -228,7 +239,7 @@
                     $.ajax({
                         type: 'POST',
                         url: "/delete_user/" + userId,
-                        data:{"_token": "{{ csrf_token() }}"},
+                        data: {"_token": "{{ csrf_token() }}"},
                         success: (response) => {
                             if (response == 1) {
                                 Swal.fire({

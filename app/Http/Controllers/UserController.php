@@ -10,11 +10,12 @@ use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
     //User list function
-    public function index(){
+    public function index()
+    {
 
-       $userList = DB::table('users')
-           ->join('d_s_divisions', 'users.ds_division', '=', 'd_s_divisions.division_id')
-           ->get();
+        $userList = DB::table('users')
+            ->join('d_s_divisions', 'users.ds_division', '=', 'd_s_divisions.division_id')
+            ->get();
 
         $divisionList = DSDivision::all();
 
@@ -23,7 +24,8 @@ class UserController extends Controller
     }
 
     //User insert view
-    public function insert(){
+    public function insert()
+    {
 
         $divisionList = DSDivision::all();
 
@@ -32,7 +34,8 @@ class UserController extends Controller
     }
 
     //User create function
-    public function create(Request $request){
+    public function create(Request $request)
+    {
 
         $validatedData = $request->validate([
             'first_name' => 'required',
@@ -71,17 +74,18 @@ class UserController extends Controller
 
         $user = DB::table('users')
             ->join('d_s_divisions', 'users.ds_division', '=', 'd_s_divisions.division_id')
-            ->where('users.id','=',$id)
+            ->where('users.id', '=', $id)
             ->get();
 
         return view('accura_edit_member', compact('user', 'divisionList'));
     }
 
+    //User update function
     public function update(Request $request)
     {
         $validatedData = $request->validate([
             'first_name' => 'required',
-            'last_name' => 'required|unique:users|last_name',
+            'last_name' => 'required',
             'ds_division' => 'required',
             'dob' => 'required',
             'summary' => 'required|string|uppercase',
@@ -95,7 +99,19 @@ class UserController extends Controller
         $user->dob = $request->input('dob');
         $user->summary = $request->input('summary');
         $user->save();
-//
+
         return redirect('/');
+    }
+
+    //User search function
+    public function search(Request $request)
+    {
+        $divisionList = DSDivision::all();
+        $userList = DB::table('users')
+            ->join('d_s_divisions', 'users.ds_division', '=', 'd_s_divisions.division_id')
+            ->where('last_name', 'LIKE', '%' . $request['search'] . "%")->get();
+
+        return view('accura_member_list', compact('userList', 'divisionList'))->withDetails($userList)->withQuery($request['search']);
+
     }
 }
